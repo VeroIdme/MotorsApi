@@ -5,7 +5,7 @@ exports.findUsers = async (req, res) => {
     const time = req.requestTime
     const users = await User.findAll({
         where: {
-            status: true,
+            status: "available",
         }
     })
 

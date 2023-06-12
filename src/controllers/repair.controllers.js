@@ -84,7 +84,7 @@ exports.updateRepairs = async (req, res) => {
         const repair = await Repair.findOne({
             where: {
                 id,
-                status: true,
+                status: "pending",
             }
         })
         
@@ -95,7 +95,7 @@ exports.updateRepairs = async (req, res) => {
             })
         }
         
-        await repair.update({ date, userId })
+        await repair.update({ status: "completed" })
         
         return res.status(200).json({
             status: "success",
@@ -119,7 +119,7 @@ exports.deleteRepairs = async (req, res) => {
         const repair = await Repair.findOne({
             where: {
                 id,
-                status: true,
+                status: "pending",
             }
         })
         
@@ -130,7 +130,7 @@ exports.deleteRepairs = async (req, res) => {
             })
         }
         
-        await repair.update({ status: false })
+        await repair.update({ status: "cancelled" })
         
         return res.status(200).json({
             status: "success",

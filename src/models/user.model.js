@@ -17,6 +17,7 @@ const User = db.define("users", {
     email: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique:true,
     },
 
     password: {
@@ -25,12 +26,13 @@ const User = db.define("users", {
     },
 
     role: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.ENUM("client", "employee"),
         allowNull: false,
+        defaultValue: "client"
     },
 
     status: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM("available", "disabled"),
         allowNull: false,
         defaultValue: "available",
     }
