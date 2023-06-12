@@ -5,7 +5,7 @@ exports.findRepairs = async (req, res) => {
     const time = req.requestTime
     const repairs = await Repair.findAll({
         where: {
-            status: true,
+            status: "pending",
         }
     })
 
@@ -25,7 +25,7 @@ exports.findRepair = async (req, res) => {
         const repair = await Repair.findOne({
             where: {
                 id,
-                status: true,
+                status: "pending",
             }
         })
       
@@ -79,7 +79,7 @@ exports.updateRepairs = async (req, res) => {
       
         const { id } = req.params
         
-        const { date, userId } = req.body
+        const { status } = req.body
         
         const repair = await Repair.findOne({
             where: {
