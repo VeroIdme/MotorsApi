@@ -1,7 +1,10 @@
 const User = require("../models/user.model")
+const catchAsync = require("../utils/catchAsync")
+const bcrypt = require("bcrypt")
+const generateJWT = require("../utils/jwt")
 
 /* Funciones  */
-exports.findUsers = async (req, res) => {
+exports.findUsers = catchAsync(async (req, res) => {
     const time = req.requestTime
     const users = await User.findAll({
         where: {
@@ -16,121 +19,30 @@ exports.findUsers = async (req, res) => {
         message: "users found",
         users,
     })
-}
-
-exports.findUser = async (req, res) => {
-    try {
-        const { id } = req.params
-        
-        const user = await User.findOne({
-            where: {
-                id,
-                status: "available",
-            }
-        })
-      
-        if (!user) {
-            return res.status(404).json({
-                message: "The user with the one not found"
-            })
-        }
+})
+exports.findUser = catchAsync(async (req, res, next) => {
+    const { user } = req
         
         return res.json({
             status: "Success",
             message: "User found",
             user,
         })
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            status: "fail",
-            message: "Something went very bad",
-        })
-    }
-}
-
-
-exports.createUsers = async (req, res) => {
-    try {
+})
+exports.updateUsers = catchAsync(async (req, res) => {
+    const { user } = req
         
-        const { name, email, password, role } =
-            req.body
+    const { name, email } = req.body
         
-        const user = await User.create({
-            name,
-            email,
-            password,
-            role,
-        })
-        
-        return res.status(210).json({
-            message: "The user has been created",
-            user,
-        })
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({
-            status: "fail",
-            message: "Something went very bad",
-        })
-    }
-}
-
-exports.updateUsers = async (req, res) => {
-    try {
-      
-        const { id } = req.params
-        
-        const { name, email, password, role } = req.body
-        
-        const user = await User.findOne({
-            where: {
-                id,
-                status: "available",
-            }
-        })
-        
-        if (!user) {
-            return res.status(404).json({
-                status: "error",
-                message: `User with ${id} not found`
-            })
-        }
-        
-        await user.update({ name, email })
+    await user.update({ name, email })
         
         return res.status(200).json({
             status: "success",
             message: "the user has been updated"
         })
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({
-            status: "fail",
-            message: "Something went very bad",
-        })
-    }
-}
-
-exports.deleteUsers = async (req, res) => {
-    try {
-        
-        const { id } = req.params
-
-        
-        const user = await User.findOne({
-            where: {
-                id,
-                status: "available",
-            }
-        })
-        
-        if (!user) {
-            return res.status(404).json({
-                status: "error",
-                message: `User with ${id} not found`
-            })
-        }
+})
+exports.deleteUsers = catchAsync(async (req, res) => {
+    const { user } = req
         
         await user.update({ status: "disabled" })
         
@@ -138,10 +50,4 @@ exports.deleteUsers = async (req, res) => {
             status: "success",
             message: "the user has been deleted"
         })
-    } catch (error) {
-        return res.status(500).json({
-            status: "fail",
-            message: "Something went very bad",
-        })
-    }
-}
+})
