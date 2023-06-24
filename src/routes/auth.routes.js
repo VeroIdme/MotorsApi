@@ -3,10 +3,12 @@ const router = express.Router()
 const authController = require("../controllers/auth.controllers")
 const validationMiddleware = require("../middlewares/validation.middleware")
 
-router.post("/",
+router.route("/").post(
     validationMiddleware.createUserFields,
-    userController.createUsers)
+    authController.createUsers)
 
-router.post("/login", 
+router.route("/login").post( 
     validationMiddleware.loginUser,
     authController.login)
+
+module.exports = router

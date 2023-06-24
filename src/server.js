@@ -1,11 +1,10 @@
 //!😁😁Importacion y configuracion de dotenv para las variables de entorno
 require("dotenv").config()
 //!😁😁Importacion de app
-const express = require("express")
+const app = require("./app")
 //!😁😁Importacion de la db
 const { db } = require("./database/config")
 
-const app = express()
 
 //Autenticando y sincronizando base de datos
 db.authenticate()
