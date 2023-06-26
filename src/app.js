@@ -13,9 +13,9 @@ app.use(express.json())
 app.use(cors())
 
 //!Ejecucion de morgan para errores y requeriemientos segun entornos
-if(process.env.NODE_ENV === "development"){
+/* if(process.env.NODE_ENV === "development"){
     app.use(morgan("dev"))
-}
+} */
 
 //Importacion de rutas segun usuario
 const userRouter = require('./routes/user.routes')

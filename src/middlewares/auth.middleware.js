@@ -31,12 +31,12 @@ exports.protect = catchAsync(async (req, res, next) => {
 
     if(!user) next(new AppError('The owner of this token it not longer available'))
 
-    //?5. En caso de cambio de contrasena, que se cirre sesion y vuelva a loguearse
+   /*  //?5. En caso de cambio de contrasena, que se cirre sesion y vuelva a loguearse
     if(user.passwordChangeAt){
         const changeTimeStamp = parseInt(user.passwordChangeAt.getTime()/1000,10)
         if(decoded.iot < changeTimeStamp) next(new AppError('Your password changed, loggin again', 401))
     }
-
+ */
 
     req.sessionUser = user
     

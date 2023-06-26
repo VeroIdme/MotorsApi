@@ -34,14 +34,17 @@ const handlerError23505 = () => new AppError('Duplicate value', 400)
     err.status = err.status || "Fail"
 
     if(process.env.NODE_ENV === "development"){
+        console.log(err)
         sendErrorDev(err, res)
     }
     if(process.env.NODE_ENV === "production"){
-        const error = err
-
-        if(error.parent.code === "23505") handlerError23505()
+        let error = err
         
-        sendErrorProd(err, res)
+        if(error.parent?.code === '23505') {
+           error = handlerError23505()
+        }
+        
+        sendErrorProd(error, res)
     }
  }
 
