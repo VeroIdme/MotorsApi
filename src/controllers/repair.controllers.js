@@ -27,18 +27,18 @@ exports.findRepair = catchAsync(async (req, res) => {
         })
 })
 exports.createRepairs = catchAsync(async (req, res) => {
-    const { date, userId } =
-            req.body
+    const { date } = req.body
+    const { id } = req.sessionUser
         
-        const repair = await Repair.create({
-            date,
-            userId,
-        })
+    const repair = await Repair.create({
+        date,
+        userId: id,
+    })    
         
-        return res.status(210).json({
-            message: "The repair has been created",
-            repair,
-        })
+    return res.status(210).json({
+        message: "The repair has been created",
+        repair,
+    })
 })
 exports.updateRepairs = catchAsync(async (req, res) => {
     const { repair } = req

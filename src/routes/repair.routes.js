@@ -7,11 +7,13 @@ const authMiddleware = require('../middlewares/auth.middleware')
 
 /* CRUD con router */
 
+router.use(authMiddleware.protect)
+
 router.post("/",
     validationMiddleware.createRepairFields,
     repairController.createRepairs)
 
-router.use(authMiddleware.protect, authMiddleware.roles("employee"))
+router.use(authMiddleware.roles("employee"))
 
 router.route("/").get(repairController.findRepairs)
         
