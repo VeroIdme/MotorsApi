@@ -17,9 +17,15 @@ router.use(authMiddleware.roles("employee"))
 
 router.route("/").get(repairController.findRepairs)
         
-router.route("/:id")
-    .get(repairMiddleware.repairValidation, repairController.findRepair)
-    .patch(repairMiddleware.repairValidation, repairController.updateRepairs)
-    .delete(repairMiddleware.repairValidation, repairController.deleteRepairs)
+router
+    .use(repairMiddleware.repairValidation)
+    .route("/:id")
+    .get(repairController.findRepair)
+    .patch(
+        authMiddleware.protectAccountOwner,
+        repairController.updateRepairs)
+    .delete(
+        authMiddleware.protectAccountOwner,
+        repairController.deleteRepairs)
 
 module.exports = router

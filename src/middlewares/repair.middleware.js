@@ -1,4 +1,5 @@
 const Repair = require("../models/repair.model")
+const User = require("../models/user.model")
 const catchAsync = require("../utils/catchAsync")
 
 exports.repairValidation = catchAsync(async (req, res, next) => {
@@ -8,7 +9,14 @@ exports.repairValidation = catchAsync(async (req, res, next) => {
         where: {
             id,
             status: "pending",
-        }
+        },
+
+        include: [
+            {
+                model: User
+            }
+        ]
+
     })
 
     if (!repair) {
@@ -17,6 +25,7 @@ exports.repairValidation = catchAsync(async (req, res, next) => {
         })
     }
 
+    req.user = repair.user
     req.repair = repair
     next()
 })

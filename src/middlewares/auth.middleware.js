@@ -48,4 +48,11 @@ exports.roles = (...roles) => {
         next()
     }
 }
+exports.protectAccountOwner = catchAsync(async (req, res, next) => { 
+    const { user, sessionUser } = req
+
+    if(user.id !== sessionUser.id) next(new AppError("You cannot to perfom this action ", 403))
+
+    next()
+})
 

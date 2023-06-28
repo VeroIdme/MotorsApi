@@ -4,12 +4,15 @@ require("dotenv").config()
 const app = require("./app")
 //!😁😁Importacion de la db
 const { db } = require("./database/config")
+const initModel = require("./models/initModel")
 
 
 //Autenticando y sincronizando base de datos
 db.authenticate()
     .then(() => console.log("Database authenticated"))
     .catch((err) => console.log(err))
+
+initModel()
 
 db.sync()
     .then(() => console.log("Database synced"))
